@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Données locales
+docuflow_ai/data/uploads/
+docuflow_ai/data/indexes/
+docuflow_ai/data/dossiers/
+docuflow_ai/data/session_state.json
+
+# Fichiers perso / non-code
+message (5).txt
+presentation_jalon1.pptx
+generate_slides.js
+
+# Claude Code
+.claude/
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store

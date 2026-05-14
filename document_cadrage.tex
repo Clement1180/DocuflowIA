@@ -1,0 +1,151 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{float}
+
+\geometry{margin=2.5cm}
+\onehalfspacing
+
+\title{%
+  \textbf{DocuFlow AI}\\
+  Assistant IA local pour l'automatisation documentaire\\[0.5em]
+  \large Document de cadrage -- Jalon du 12 mai 2026
+}
+\author{%
+  \textit{BARDIN Clément} \quad
+  \textit{POURCINE Mattéo} \quad
+  \textit{RICALENS Tom}\\[0.3em]
+  \textit{SEIDEL Conrad} \quad
+  \textit{TROILLARD Romain}%
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Cadrage du problème}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Dans de nombreuses organisations (PME, services administratifs, équipes comptables), une part importante du temps est consacrée à la lecture et à la saisie d'informations provenant de documents semi-structurés : factures fournisseurs, reçus de dépenses, formulaires réglementaires, contrats. Ces documents arrivent sous des formats hétérogènes -- PDF scannés, photos prises avec un téléphone, fichiers nativement numériques -- ce qui rend leur traitement automatique difficile.
+
+Le problème que nous cherchons à résoudre est le suivant : \textit{« Comment réduire le temps et les erreurs liés au traitement manuel de documents administratifs, tout en permettant une recherche d'information précise en langage naturel sur l'ensemble du corpus ? »}
+
+Concrètement, un employé ouvre un PDF, parcourt plusieurs pages pour repérer quelques éléments (montants, dates, numéros de dossier, identifiants légaux), puis recopie ces informations dans un ERP ou un tableur. Cette séquence est longue, répétitive et source d'erreurs, particulièrement sur un volume important de documents traités chaque semaine.
+
+Pour rester réaliste compte tenu du temps imparti, le prototype se concentre sur les \textbf{quatre types de documents les plus fréquents en PME} : factures, reçus, formulaires et contrats. L'extension à des rapports techniques complexes est identifiée comme perspective au-delà de ce jalon.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Définition de l'utilisateur cible}
+% ─────────────────────────────────────────────────────────────────────────────
+
+L'utilisateur principal visé est un \textbf{employé administratif ou un responsable comptable} dans une PME française. Il traite régulièrement un volume de 10 à 100 documents par semaine (factures fournisseurs, notes de frais, formulaires CERFA) et n'est pas spécialiste d'intelligence artificielle ni de développement logiciel. Il a besoin d'un outil simple et immédiat : charger un document, voir les champs pertinents extraits automatiquement, les corriger si besoin, et poser une question en langage naturel sur le contenu.
+
+Cet utilisateur travaille sur du matériel standard (PC Windows, 8 à 16 Go de RAM, sans GPU dédié puissant) et est particulièrement sensible à la \textbf{confidentialité des données} : les documents contiennent souvent des informations financières ou personnelles qui ne doivent pas transiter vers des serveurs externes. C'est pourquoi DocuFlow AI fonctionne \textbf{entièrement en local}, sans connexion cloud et sans clé API tierce.
+
+Deux profils secondaires bénéficieraient également de l'outil avec peu d'adaptation : un technicien parcourant des rapports d'intervention pour en extraire des valeurs (références, dates, mesures), et un agent dans une organisation publique traitant des formulaires standardisés.
+
+Les besoins clés identifiés sont les suivants :
+
+\begin{itemize}[leftmargin=*, itemsep=2pt]
+  \item \textbf{Extraction automatique} : récupérer sans saisie manuelle les dates, montants, SIRET, TVA, IBAN et numéros de facture ;
+  \item \textbf{Tri intelligent} : classer automatiquement les documents dans les bons dossiers selon leur nature ;
+  \item \textbf{Recherche en langage naturel} : poser une question (« Quel est le total TVA de la facture d'avril ? ») et obtenir une réponse sourcée ;
+  \item \textbf{Confidentialité totale} : aucune donnée ne quitte la machine, pas de compte cloud requis ;
+  \item \textbf{Simplicité d'usage} : interface web accessible depuis un navigateur, sans installation complexe pour l'utilisateur final.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Proposition de valeur}
+% ─────────────────────────────────────────────────────────────────────────────
+
+La proposition de valeur de DocuFlow AI repose sur trois axes différenciants.
+
+\textbf{Traitement 100\,\% local.} Toutes les briques (OCR, extraction d'entités, LLM) s'exécutent sur la machine de l'utilisateur. Aucune donnée ne transite vers un serveur cloud. Cette contrainte forte, souvent bloquante pour les PME traitant des documents financiers ou des données personnelles, est ici résolue par nature grâce au choix d'Ollama et de Tesseract en local.
+
+\textbf{Extraction d'entités structurées.} L'application identifie automatiquement les champs les plus utiles -- dates, montants, taxes, SIRET, IBAN, numéros de facture -- et les présente dans un tableau directement exploitable. L'utilisateur peut corriger un champ en un clic ; la source (extrait de texte) est toujours indiquée.
+
+\textbf{Question-réponse en langage naturel.} L'utilisateur peut interroger l'ensemble des documents indexés en français ou en anglais. Le moteur RAG (Retrieval-Augmented Generation) retrouve les passages pertinents et le LLM local génère une réponse courte avec citation de la source. En cas d'indisponibilité du LLM, le système bascule automatiquement en mode extractif (TF-IDF), garantissant une réponse dans tous les cas.
+
+Il ne s'agit pas de remplacer les contrôles humains, mais de supprimer les tâches les plus répétitives : quelques minutes gagnées par document deviennent significatives sur un volume hebdomadaire de plusieurs dizaines de documents.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Données, validation et métriques cibles}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Types de données et entités extraites}
+
+Le prototype accepte des PDF (natifs ou scannés, convertis en images via Poppler) et des images (JPG, PNG, TIFF). La qualité peut varier -- photos prises avec un téléphone, scans imparfaits -- ce qui a guidé le choix de Tesseract 5.4.0 avec le mode de segmentation de pages adaptatif et le support bilingue \texttt{fra+eng}.
+
+Huit types d'entités sont extraits automatiquement par expressions régulières : dates (\texttt{15/03/2024}, \texttt{15 mars 2024}), montants (\texttt{1 234,56 €}), numéros SIRET (\texttt{123 456 789 00012}), numéros de TVA intracommunautaire (\texttt{FR12 345 678 901}), IBAN (\texttt{FR76 1234...}), numéros de facture (\texttt{F-2024-001}), adresses email et numéros de téléphone. Le choix des regex, plutôt qu'un modèle de compréhension de documents (LayoutLM, Donut), est un compromis délibéré pour ce jalon : précision élevée sur les entités structurées, comportement déterministe et facilement auditable.
+
+\subsection{Jeux de données de référence}
+
+Pour l'évaluation, trois jeux de données publics annotés sont utilisés comme référence : \textbf{SROIE} pour les reçus (montant, date, adresse, nom du commerçant), \textbf{FUNSD} pour les formulaires scannés avec annotations d'entités et de relations, et \textbf{DocVQA} pour la composante question-réponse visuelle sur documents.
+
+\subsection{Métriques cibles}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Métrique} & \textbf{Description} & \textbf{Cible} \\
+\midrule
+Exact Match (EM) & Champs extraits identiques à la vérité terrain & $>$ 80\,\% \\
+F1-Score entités & Précision et rappel des entités extraites & $>$ 85\,\% \\
+Accuracy Q\&A & Taux de bonnes réponses sur corpus DocVQA & $>$ 75\,\% \\
+CER & Character Error Rate de l'OCR & $<$ 5\,\% \\
+WER & Word Error Rate de l'OCR & $<$ 10\,\% \\
+Temps / document & Durée de traitement bout-en-bout & $<$ 10\,s \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ces métriques sont calculées en temps réel et affichées dans l'onglet Métriques de l'interface.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Plan technique initial et maquette de l'interface}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Architecture}
+
+L'architecture est volontairement simple pour ce premier jalon. Le pipeline de traitement suit les étapes suivantes : import d'un PDF ou d'une image, conversion en images via Poppler si nécessaire, extraction du texte et des positions par Tesseract, extraction des entités par regex, classification automatique par mots-clés, indexation dans le DocumentStore JSON, et enfin réponse aux questions via Ollama (Gemma 4 E2B Q4) avec fallback TF-IDF.
+
+La stack technique retenue est la suivante : Streamlit 1.47+ pour l'interface, Tesseract 5.4.0 pour l'OCR, Poppler 25.07.0 pour la conversion PDF, Ollama 0.23+ avec le modèle \texttt{batiai/gemma4-e2b:q4} (3,4\,Go, quantisation Q4, contexte 128\,K tokens) pour le LLM local, et un stockage JSON sur disque pour l'index RAG. Python 3.11 est requis, Streamlit ne supportant pas encore Python 3.14.
+
+Après expérimentation, trois modèles ont été écartés avant de retenir le modèle actuel : \texttt{tinyllama} (qualité insuffisante en français), \texttt{mistral:latest} 4,1\,Go (VRAM insuffisante) et \texttt{gemma4:e2b} officiel 7,2\,Go (RAM système insuffisante : 5,4\,Go requis contre 4,9\,Go disponibles).
+
+\subsection{Interface Streamlit -- cinq onglets}
+
+L'interface est accessible sur \texttt{http://localhost:8501} après lancement de \texttt{run.bat}. Elle est organisée en cinq onglets : \textbf{Import \& Analyse} (import par dossier local ou glisser-déposer, OCR + extraction + classification automatique), \textbf{Tri en Dossiers} (copie ou déplacement vers \texttt{factures/}, \texttt{recus/}, \texttt{formulaires/}, \texttt{contrats/}, \texttt{autres/}), \textbf{Chat Q\&A} (questions en langage naturel avec citation des sources), \textbf{Métriques} (graphiques et tableau récapitulatif), et une barre latérale gérant la \textbf{persistance inter-sessions} (sauvegarde automatique dans \texttt{session\_state.json}, bouton de réinitialisation).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{image.png}
+  \caption{Vue \og Import \& Analyse \fg{} -- résumé des entités extraites et classification}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{summary.png}
+  \caption{Vue \og Summary \fg{} -- tableau de bord de session avec répartition par catégorie}
+\end{figure}
+
+\subsection{Risques et limites}
+
+Les principaux risques concernent la qualité OCR sur les documents très dégradés (CER élevé, extraction d'entités dégradée) et la latence du LLM sur CPU (5 à 15 secondes par réponse). Le mode TF-IDF constitue une alternative rapide. Pour des volumes importants, le stockage JSON devra être remplacé par une base vectorielle (FAISS, Chroma). Les regex sont adaptées aux formats français ; les documents étrangers nécessiteront une extension.
+
+\subsection{Plan de travail jusqu'au prochain jalon}
+
+D'ici le 20 mai, le travail se concentre sur l'évaluation quantitative sur un jeu annoté (SROIE) pour mesurer l'EM et le F1 effectifs, l'amélioration du prétraitement image avant OCR, et l'ajout d'un export CSV des entités extraites.
+
+\end{document}
