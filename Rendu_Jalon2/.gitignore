@@ -1,0 +1,9 @@
+# Dataset brut (fichiers téléchargés)
+dataset/raw/
+
+# Notebook exécuté (volumineux, peut être régénéré)
+01_EDA_et_Pipeline_executed.ipynb
+
+# Cache Python
+__pycache__/
+*.pyc

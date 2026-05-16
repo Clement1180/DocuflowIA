@@ -1,0 +1,22 @@
+{
+  "dataset": "SROIE (ICDAR 2019)",
+  "description": "Scanned Receipts OCR and Information Extraction",
+  "source": "https://github.com/zzzDavid/ICDAR-2019-SROIE",
+  "total_documents": 50,
+  "splits": {
+    "train": 30,
+    "validation": 10,
+    "test": 10
+  },
+  "entity_fields": [
+    "company",
+    "date",
+    "address",
+    "total"
+  ],
+  "format": {
+    "images": "JPG (reçus scannés)",
+    "annotations": "JSON (company, date, address, total)",
+    "ocr_reference": "CSV (x1,y1,...,x4,y4,text)"
+  }
+}

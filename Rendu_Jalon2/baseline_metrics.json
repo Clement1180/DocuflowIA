@@ -1,0 +1,181 @@
+{
+  "project": "DocuFlow AI",
+  "jalon": "Jalon 2 — Baseline Evaluation",
+  "dataset": "SROIE (ICDAR 2019)",
+  "split": "test",
+  "n_documents": 10,
+  "pipeline": {
+    "ocr": "Tesseract 5.4 (fra+eng)",
+    "extraction": "Regex Python (entity_extractor.py)",
+    "llm": "N/A (baseline sans LLM)"
+  },
+  "metrics": {
+    "ocr": {
+      "cer_mean": 0.3846,
+      "cer_median": 0.3867,
+      "wer_mean": 0.5718,
+      "wer_median": 0.5634,
+      "n_evaluated": 10
+    },
+    "extraction": {
+      "exact_match": 0.45,
+      "f1_score": 0.4017,
+      "precision": 0.4,
+      "recall": 0.45,
+      "n_evaluated": 10
+    },
+    "performance": {
+      "avg_time_per_doc_s": 0.9104,
+      "total_time_s": 9.1039
+    }
+  },
+  "targets": {
+    "cer": "< 0.05",
+    "wer": "< 0.10",
+    "exact_match": "> 0.80",
+    "f1_score": "> 0.85",
+    "time_per_doc": "< 10s"
+  },
+  "per_document": [
+    {
+      "id": "005",
+      "ocr_confidence": 77.25,
+      "ocr_time_s": 0.413,
+      "cer": 0.5267,
+      "wer": 0.7581,
+      "entities_found": 1,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "034",
+      "ocr_confidence": 73.59,
+      "ocr_time_s": 1.18,
+      "cer": 0.3641,
+      "wer": 0.5112,
+      "entities_found": 1,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "006",
+      "ocr_confidence": 79.55,
+      "ocr_time_s": 0.811,
+      "cer": 0.3384,
+      "wer": 0.4204,
+      "entities_found": 6,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "008",
+      "ocr_confidence": 68.18,
+      "ocr_time_s": 0.898,
+      "cer": 0.3502,
+      "wer": 0.6306,
+      "entities_found": 0,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "014",
+      "ocr_confidence": 69.9,
+      "ocr_time_s": 1.472,
+      "cer": 0.4136,
+      "wer": 0.5699,
+      "entities_found": 0,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "015",
+      "ocr_confidence": 71.34,
+      "ocr_time_s": 0.981,
+      "cer": 0.4751,
+      "wer": 0.7791,
+      "entities_found": 2,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "017",
+      "ocr_confidence": 85.39,
+      "ocr_time_s": 1.396,
+      "cer": 0.4093,
+      "wer": 0.5568,
+      "entities_found": 2,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "001",
+      "ocr_confidence": 79.48,
+      "ocr_time_s": 0.674,
+      "cer": 0.4708,
+      "wer": 0.6569,
+      "entities_found": 2,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "007",
+      "ocr_confidence": 76.6,
+      "ocr_time_s": 0.59,
+      "cer": 0.2834,
+      "wer": 0.4932,
+      "entities_found": 3,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    },
+    {
+      "id": "040",
+      "ocr_confidence": 79.51,
+      "ocr_time_s": 0.686,
+      "cer": 0.2144,
+      "wer": 0.3415,
+      "entities_found": 3,
+      "gt_fields": [
+        "company",
+        "date",
+        "address",
+        "total"
+      ]
+    }
+  ]
+}
